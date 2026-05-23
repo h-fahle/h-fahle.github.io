@@ -1,0 +1,394 @@
+/*
+li classes:
+-----------
+children-list
+my-ancestor
+vertical
+marked (nur bei roemer)
+
+
+span-classes:
+-------------
+male
+female
+indi
+death
+connector-outer, connector-inner
+inline-child
+cols, col-left, col-right
+desc-link
+data-note
+with-children
+overline
+
+
+li- und span-class:
+-------------------
+not-proved
+*/
+
+body {
+    background-color: #E8E8E8;
+    font-family: Cambria;
+    font-size: 10px;
+}
+@media print {
+    body {
+        font-size: 0.62em;
+    }
+}
+
+div#caption {
+    margin-left: 45px;
+    margin-bottom: 3px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #666666;
+}
+
+pre#source,
+pre#notes,
+div#content {
+    display: none;
+}
+
+div#orgchart {
+    position: relative;
+    left: 40px;
+    background-color: white;
+    border-bottom: 1px solid lightgray;
+}
+
+div#footnotes {
+    position: relative;
+    left: 45px;
+    width: 75%;
+    top: 3px;
+    color: #585858;
+}
+
+/*===========================================
+nodes
+=============================================*/
+div.org-node {
+    text-align: center;
+    color: #353535;
+    cursor: default;
+}
+
+div.org-node div {
+    position: absolute;
+}
+
+span.inline-child {
+    position: relative;
+    width: 100%;
+    left: -3px;
+}
+
+div.org-node div,
+span.inline-child {
+    padding: 2px;
+    border: 1px solid #3388dd;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.5) 3px 3px 6px;
+    background: linear-gradient(white, aliceblue);
+}
+
+div.org-node div:hover,
+span.inline-child:hover {
+    background-image: none !important;
+    background-color: #FFFAE2 !important;
+    box-shadow: rgba(0, 0, 0, 0.25) 3px 3px 3px inset;
+}
+
+div.my-ancestor {
+    background: linear-gradient(white, ivory) !important;
+}
+
+div.vertical {
+    text-align: right;
+    transform-origin: 100% 0%;
+    transform: translate(-100%, 0) rotate(-90deg);
+    box-shadow: rgba(0, 0, 0, 0.5) -3px 3px 6px !important;
+}
+
+/*============================================*/
+/* inside nodes */
+/*============================================*/
+div.children {
+    z-index: 9;
+}
+
+div.children.closed {
+    border-bottom-width: 0.6em !important;
+}
+
+div.children.closed::after {
+    content: '...';
+    position: absolute;
+    bottom: -0.6em;
+    color: white;
+    font-weight: bold;
+}
+
+/* Separation line after first child*/
+div.children-list span.child:not(:first-child),
+div.children-list span.male:not(:first-child),
+div.children-list span.female:not(:first-child),
+div.children-list span.death:not(:first-child) {
+    border-top: 1px solid blue;
+    border-radius: 0px;
+    margin-top: 4px;
+}
+
+div.marked-red {
+    background: #ffd9d5 !important;
+}
+
+.death {
+    color: gray !important;
+}
+
+span {
+    display: block;
+    white-space: nowrap;
+}
+
+span.cols {
+    display: flex;
+}
+span.col-left {
+    flex-basis: 50%;
+    text-align: right;
+    padding-right: 4px;
+}
+span.col-right {
+    flex-basis: 50%;
+    text-align: left;
+    padding-left: 4px;
+}
+
+span.connector-inner {
+    /* inline connector */
+    width: 100%;
+    font-size: 1.2em;
+    color: #3388dd;
+}
+
+span.connector-outer {
+    /* inline child connector */
+    position: relative;
+    top: 1px;
+    width: 100%;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #3388dd;
+}
+
+span.male,
+x-male {
+    font-weight: bold;
+    color: #4077f7;
+}
+
+span.female,
+x-female {
+    font-weight: bold;
+    color: #D822A7;
+}
+
+span.indi,
+x-indi,
+b {
+    font-weight: bold;
+    color: #585858;
+}
+
+span.overline {
+    border-top: 1px dotted grey;
+}
+
+span.comment {
+    border-top: 1px dotted grey;
+    font-style: italic;
+}
+span.comment:not(:last-child) {
+    border-bottom: 1px dotted grey;
+}
+blockquote {
+    margin: 0.15em 0.2em;
+    padding: 0.2em 0.4em;
+    box-shadow: inset 1px 1px 1px 0px rgba(90, 90, 90, 0.5);
+    border: 1px solid #3388dd30;
+    border-radius: 5px;
+    font-style: italic;
+}
+
+span.link {
+    padding-bottom: 3px;
+}
+
+span.desc-link {
+    position: relative;
+    top: 1px;
+    height: 7px;
+    margin-top: 3px;
+    padding-top: 2px;
+    background-color: #ffcbcb;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+span.desc-link::before {
+    position: relative;
+    top: -4px;
+    content: '>';
+}
+
+/* div and span */
+.not-proved {
+    /* border: 1px dashed lightgrey !important; */
+    /*    background-color: #ffbafb54;*/
+    background: repeating-linear-gradient(-45deg,
+            white,
+            white 10px,
+            rgba(204, 204, 204, 0.15) 10px,
+            rgba(204, 204, 204, 0.4) 20px) !important;;
+}
+
+/* span.not-proved {
+    padding: 2px;
+} */
+
+/*===========================================
+Notes-Dialog
+=============================================*/
+/* button for pagenotes */
+div#bt-pagenotes {
+    position: relative;
+    left: 3px; top: 3px;
+    color: blue;
+    cursor: pointer;
+}
+
+/* content notes 
+    deprecated note-type: <pre id="notes">
+    in bitter.html
+*/
+span[data-note] {
+    background-color: #ffa;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+span[data-note]::after {
+    content: '(i)';
+    position: absolute;
+    margin-left: 5px;
+}
+
+div.notes {
+    position: absolute;
+    display: none;
+    z-index: 999;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px 3px rgba(0, 0, 0, 0.5);
+    padding: 4px;
+    color: #585858;
+    background-color: #f8f8f8;
+    overflow: hidden;
+    cursor: move;
+}
+div.notes .title {
+    background-color: #cbe5ff;
+    border: 1px solid lightblue;
+    margin-bottom: 5px;
+    padding: 2px;
+    font-weight: bold;
+    pointer-events: none;
+}
+div.notes .title::after {
+    content: "\2716";
+    font-weight: normal;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    cursor: pointer;
+    pointer-events: all;
+}
+div.notes .content {
+    max-height: 450px;
+    overflow-x: auto;
+    cursor: default;
+}
+div.notes .content ol,
+div.notes .content ul,
+div.notes .content p {
+    margin-block-start: 0.2em;
+    margin-block-end: 0.2em;
+}
+div.notes .content[style*="height"] {
+    max-height: unset;
+}
+div.notes .content pre {
+    margin: 0.2em;
+    font-family: Cambria;
+}
+
+
+* .cmenu {
+    position: absolute;
+    z-index: 999;
+    border: 1px solid lightgray;
+    background: white;
+    white-space: nowrap;
+    display: none;
+}
+
+.cmenu a {
+    font-size: 15px;
+    color: #505050;
+    text-decoration: none;
+    padding: 5px 10px 5px 20px;
+    display: block;
+}
+
+.cmenu a:hover {
+    background-color: #e6e6e6;
+}
+
+.cmenu hr {
+    margin: 0;
+    border-top: 1px solid lightgrey;
+    color: white;
+}
+
+
+/* ======================================================= */
+
+
+a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #585858;
+}
+
+img {
+    margin-top: 2px;
+    height: 160px;
+}
+
+img.float-left {
+    float:left;
+    margin: 2px 2px 2px 0;
+}
+img.float-right {
+    float:right;
+    margin: 2px 0 2px 2px;
+    padding-left: 2px;
+}
+.float-clear {
+    clear:both;
+}
