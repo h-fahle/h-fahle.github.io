@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Dokumenten-Übersicht</title>
+</head>
+<body>
+    <h1>Verzeichnis-Inhalt</h1>
+    <ul id="dateiliste">Lade Dateien...</ul>
+
+    <script>
+        // Ersetzen Sie hier Ihren Benutzernamen und den Ordnernamen
+        const user = 'h-fahle';
+        const repo = 'h-fahle.github.io';
+        const pfad = 'DOKUMENTEN_ORDNER'; // Name Ihres Unterordners
+
+        fetch(`https://github.com{user}/${repo}/contents/${pfad}`)
+            .then(response => response.json())
+            .then(data => {
+                const liste = document.getElementById('dateiliste');
+                liste.innerHTML = ''; // Text zurücksetzen
+                
+                data.forEach(datei => {
+                    // Nur echte Dateien anzeigen (keine versteckten Systemdateien)
+                    if (datei.type === 'file' && !datei.name.startsWith('.')) {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<a href="${datei.name}">${datei.name}</a>`;
+                        liste.appendChild(li);
+                    }
+                });
+            })
+            .catch(err => console.error('Fehler beim Laden:', err));
+    </script>
+</body>
+</html>
